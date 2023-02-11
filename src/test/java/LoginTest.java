@@ -29,7 +29,7 @@ public class LoginTest {
     }
 
     @Test
-    @Description("вход по кнопке «Войти в аккаунт» на главной")
+    @Description("Вход по кнопке «Войти в аккаунт» на главной")
     public void checkLoginFromMainPageButtonLoginRezultOk() {
         browserRule.getDriver().get(BASE_URL + PATH_MAIN);
         objMainPage.waitForLoad();
@@ -47,7 +47,7 @@ public class LoginTest {
     }
 
     @Test
-    @Description("вход через кнопку «Личный кабинет»")
+    @Description("Вход через кнопку «Личный кабинет»")
     public void checkLoginFromMainPageLinkPersonalAccountRezultOk() {
         browserRule.getDriver().get(BASE_URL + PATH_MAIN);
         objMainPage.waitForLoad();
@@ -65,7 +65,7 @@ public class LoginTest {
     }
 
     @Test
-    @Description("вход через кнопку в форме регистрации")
+    @Description("Вход через кнопку в форме регистрации")
     public void checkLoginFromRegisterPageLinkLoginRezultOk() {
         browserRule.getDriver().get(BASE_URL + PATH_REGISTER);
         objRegisterPage.waitForLoad();
@@ -83,7 +83,7 @@ public class LoginTest {
     }
 
     @Test
-    @Description("вход через кнопку в форме восстановления пароля")
+    @Description("Вход через кнопку в форме восстановления пароля")
     public void checkLoginFromFogotPassPageLinkLoginRezultOk() {
         browserRule.getDriver().get(BASE_URL + PATH_FOGOT_PASS);
         objFogotPassPage.waitForLoad();

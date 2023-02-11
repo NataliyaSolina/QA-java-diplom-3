@@ -21,7 +21,7 @@ public class BuilderTest {
     }
 
     @Test
-    @Description("Проверь, что работают переходы к разделам «Соусы»")
+    @Description("Переходы к разделам «Соусы»")
     public void checkSwitchingByLinkSauceRezultOk() {
         objMainPage.checkNotSelectedSauce();
         objMainPage.clickLinkSauce();
@@ -29,7 +29,7 @@ public class BuilderTest {
     }
 
     @Test
-    @Description("Проверь, что работают переходы к разделам «Булки»")
+    @Description("Переходы к разделам «Булки»")
     public void checkSwitchingByLinkBunRezultOk() {
         objMainPage.clickLinkSauce();
 
@@ -39,7 +39,7 @@ public class BuilderTest {
     }
 
     @Test
-    @Description("Проверь, что работают переходы к разделам «Начинки»")
+    @Description("Переходы к разделам «Начинки»")
     public void checkSwitchingByLinkFillingRezultOk() {
         objMainPage.checkNotSelectedFilling();
         objMainPage.clickLinkFilling();
