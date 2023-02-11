@@ -7,9 +7,9 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 import static io.restassured.RestAssured.given;
+import static io.restassured.http.ContentType.JSON;
 import static java.util.Objects.isNull;
 import static org.example.Property.*;
-import static org.example.SettingsRequest.getSpec;
 
 public class WebDriverRule extends ExternalResource {
     private WebDriver driver;
@@ -41,18 +41,18 @@ public class WebDriverRule extends ExternalResource {
 
         Response responseAuth =
                 given()
-                        .spec(getSpec())
+                        .header("Content-type", JSON)
                         .and()
                         .body(cred)
                         .when()
-                        .post("/api/auth/login");
+                        .post(BASE_URL + "/api/auth/login");
         if (responseAuth.statusCode() == 200) {
             given()
-                    .spec(getSpec())
+                    .header("Content-type", JSON)
                     .and()
                     .header("Authorization", responseAuth.path("accessToken"))
                     .when()
-                    .delete("/api/auth/user");
+                    .delete(BASE_URL + "/api/auth/user");
         }
     }
 
@@ -61,18 +61,18 @@ public class WebDriverRule extends ExternalResource {
         driver.quit();
         Response responseAuth =
                 given()
-                        .spec(getSpec())
+                        .header("Content-type", JSON)
                         .and()
                         .body(cred)
                         .when()
-                        .post("/api/auth/login");
+                        .post(BASE_URL + "/api/auth/login");
         if (responseAuth.statusCode() == 200) {
             given()
-                    .spec(getSpec())
+                    .header("Content-type", JSON)
                     .and()
                     .header("Authorization", responseAuth.path("accessToken"))
                     .when()
-                    .delete("/api/auth/user");
+                    .delete(BASE_URL + "/api/auth/user");
         }
     }
 }
