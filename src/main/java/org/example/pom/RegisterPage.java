@@ -59,6 +59,14 @@ public class RegisterPage {
         driver.findElement(buttonRegisterFormRegister).click();
     }
 
+    @Step("Регистрация")
+    public void register(String name, String email, String password) {
+        setRegisterName(name);
+        setRegisterEmail(email);
+        setRegisterPassword(password);
+        clickButtonRegister();
+    }
+
     @Step("Проверка ошибки в форме регистрации")
     public void checkShowErrorPassword() {
         String stringError = "Некорректный пароль";

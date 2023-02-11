@@ -49,4 +49,11 @@ public class LoginPage {
     public void clickButtonLogin() {
         driver.findElement(buttonLoginFormLogin).click();
     }
+
+    @Step("Авторизация")
+    public void login(String email, String password) {
+        setLoginEmail(email);
+        setLoginPassword(password);
+        clickButtonLogin();
+    }
 }
