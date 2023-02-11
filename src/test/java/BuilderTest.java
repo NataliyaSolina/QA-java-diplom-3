@@ -1,30 +1,23 @@
 import io.qameta.allure.Description;
+import org.example.WebDriverRule;
 import org.example.pom.*;
-import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
 
 import static org.example.Property.*;
 
 public class BuilderTest {
-    private WebDriver driver;
+    @Rule
+    public WebDriverRule browserRule = new WebDriverRule();
     private MainPage objMainPage;
 
     @Before
     public void setUp() {
-        System.setProperty("webdriver.chrome.driver", DRIVER_PATH);
-        driver = new ChromeDriver();
-        objMainPage = new MainPage(driver);
+        objMainPage = new MainPage(browserRule.getDriver());
 
-        driver.get(BASE_URL + PATH_MAIN);
+        browserRule.getDriver().get(BASE_URL + PATH_MAIN);
         objMainPage.waitForLoad();
-    }
-
-    @After
-    public void tearDown() {
-        driver.quit();
     }
 
     @Test

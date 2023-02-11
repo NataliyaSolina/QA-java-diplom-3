@@ -1,42 +1,33 @@
 import io.qameta.allure.Description;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.example.WebDriverRule;
 import org.example.pom.*;
-import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
 
 import static org.example.Property.*;
 
 public class RegistrationTest {
-    private WebDriver driver;
+    @Rule
+    public WebDriverRule browserRule = new WebDriverRule();
+
     private RegisterPage objRegisterPage;
     private LoginPage objLoginPage;
 
     @Before
     public void setUp() {
-        System.setProperty("webdriver.chrome.driver", DRIVER_PATH);
-        driver = new ChromeDriver();
-        objRegisterPage = new RegisterPage(driver);
-        objLoginPage = new LoginPage(driver);
+        objRegisterPage = new RegisterPage(browserRule.getDriver());
+        objLoginPage = new LoginPage(browserRule.getDriver());
 
-        driver.get(BASE_URL + PATH_REGISTER);
+        browserRule.getDriver().get(BASE_URL + PATH_REGISTER);
         objRegisterPage.waitForLoad();
-    }
-
-    @After
-    public void tearDown() {
-        driver.quit();
     }
 
     @Test
     @Description("Успешная регистрация")
     public void checkRegistrationValidDataRezultOk() {
-        objRegisterPage.setRegisterName(NAME);
-        objRegisterPage.setRegisterEmail(EMAIL);
-        objRegisterPage.setRegisterPassword(PASSWORD);
-        objRegisterPage.clickButtonRegister();
+        objRegisterPage.register(NAME, EMAIL, PASSWORD);
 
         objLoginPage.waitForLoad();
         objLoginPage.checkForLoad();
@@ -45,10 +36,7 @@ public class RegistrationTest {
     @Test
     @Description("Ошибка для некорректного пароля")
     public void checkRegistrationInvalidPasswordRezultError() {
-        objRegisterPage.setRegisterName(NAME);
-        objRegisterPage.setRegisterEmail(EMAIL);
-        objRegisterPage.setRegisterPassword(RandomStringUtils.randomAlphabetic(3, 5));
-        objRegisterPage.clickButtonRegister();
+        objRegisterPage.register(NAME, EMAIL, RandomStringUtils.randomAlphabetic(3, 5));
 
         objRegisterPage.checkShowErrorPassword();
     }

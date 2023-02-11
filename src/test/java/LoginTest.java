@@ -1,15 +1,15 @@
 import io.qameta.allure.Description;
+import org.example.WebDriverRule;
 import org.example.pom.*;
-import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
 
 import static org.example.Property.*;
 
 public class LoginTest {
-    private WebDriver driver;
+    @Rule
+    public WebDriverRule browserRule = new WebDriverRule();
     private RegisterPage objRegisterPage;
     private LoginPage objLoginPage;
     private MainPage objMainPage;
@@ -17,31 +17,21 @@ public class LoginTest {
 
     @Before
     public void setUp() {
-        System.setProperty("webdriver.chrome.driver", DRIVER_PATH);
-        driver= new ChromeDriver();
-        objRegisterPage = new RegisterPage(driver);
-        objLoginPage = new LoginPage(driver);
-        objMainPage = new MainPage(driver);
-        objFogotPassPage = new FogotPassPage(driver);
+        objRegisterPage = new RegisterPage(browserRule.getDriver());
+        objLoginPage = new LoginPage(browserRule.getDriver());
+        objMainPage = new MainPage(browserRule.getDriver());
+        objFogotPassPage = new FogotPassPage(browserRule.getDriver());
 
-        driver.get(BASE_URL + PATH_REGISTER);
+        browserRule.getDriver().get(BASE_URL + PATH_REGISTER);
         objRegisterPage.waitForLoad();
 
-        objRegisterPage.setRegisterName(NAME);
-        objRegisterPage.setRegisterEmail(EMAIL);
-        objRegisterPage.setRegisterPassword(PASSWORD);
-        objRegisterPage.clickButtonRegister();
-    }
-
-    @After
-    public void tearDown() {
-        driver.quit();
+        objRegisterPage.register(NAME, EMAIL, PASSWORD);
     }
 
     @Test
     @Description("вход по кнопке «Войти в аккаунт» на главной")
     public void checkLoginFromMainPageButtonLoginRezultOk() {
-        driver.get(BASE_URL + PATH_MAIN);
+        browserRule.getDriver().get(BASE_URL + PATH_MAIN);
         objMainPage.waitForLoad();
         objMainPage.checkForLoad();
 
@@ -50,9 +40,7 @@ public class LoginTest {
         objLoginPage.waitForLoad();
         objLoginPage.checkForLoad();
 
-        objLoginPage.setLoginEmail(EMAIL);
-        objLoginPage.setLoginPassword(PASSWORD);
-        objLoginPage.clickButtonLogin();
+        objLoginPage.login(EMAIL, PASSWORD);
 
         objMainPage.waitForLoad();
         objMainPage.checkForLoad();
@@ -61,7 +49,7 @@ public class LoginTest {
     @Test
     @Description("вход через кнопку «Личный кабинет»")
     public void checkLoginFromMainPageLinkPersonalAccountRezultOk() {
-        driver.get(BASE_URL + PATH_MAIN);
+        browserRule.getDriver().get(BASE_URL + PATH_MAIN);
         objMainPage.waitForLoad();
         objMainPage.checkForLoad();
 
@@ -70,9 +58,7 @@ public class LoginTest {
         objLoginPage.waitForLoad();
         objLoginPage.checkForLoad();
 
-        objLoginPage.setLoginEmail(EMAIL);
-        objLoginPage.setLoginPassword(PASSWORD);
-        objLoginPage.clickButtonLogin();
+        objLoginPage.login(EMAIL, PASSWORD);
 
         objMainPage.waitForLoad();
         objMainPage.checkForLoad();
@@ -81,7 +67,7 @@ public class LoginTest {
     @Test
     @Description("вход через кнопку в форме регистрации")
     public void checkLoginFromRegisterPageLinkLoginRezultOk() {
-        driver.get(BASE_URL + PATH_REGISTER);
+        browserRule.getDriver().get(BASE_URL + PATH_REGISTER);
         objRegisterPage.waitForLoad();
         objRegisterPage.checkForLoad();
 
@@ -90,9 +76,7 @@ public class LoginTest {
         objLoginPage.waitForLoad();
         objLoginPage.checkForLoad();
 
-        objLoginPage.setLoginEmail(EMAIL);
-        objLoginPage.setLoginPassword(PASSWORD);
-        objLoginPage.clickButtonLogin();
+        objLoginPage.login(EMAIL, PASSWORD);
 
         objMainPage.waitForLoad();
         objMainPage.checkForLoad();
@@ -101,7 +85,7 @@ public class LoginTest {
     @Test
     @Description("вход через кнопку в форме восстановления пароля")
     public void checkLoginFromFogotPassPageLinkLoginRezultOk() {
-        driver.get(BASE_URL + PATH_FOGOT_PASS);
+        browserRule.getDriver().get(BASE_URL + PATH_FOGOT_PASS);
         objFogotPassPage.waitForLoad();
         objFogotPassPage.checkForLoad();
 
@@ -110,9 +94,7 @@ public class LoginTest {
         objLoginPage.waitForLoad();
         objLoginPage.checkForLoad();
 
-        objLoginPage.setLoginEmail(EMAIL);
-        objLoginPage.setLoginPassword(PASSWORD);
-        objLoginPage.clickButtonLogin();
+        objLoginPage.login(EMAIL, PASSWORD);
 
         objMainPage.waitForLoad();
         objMainPage.checkForLoad();

@@ -1,52 +1,40 @@
 import io.qameta.allure.Description;
+import org.example.WebDriverRule;
 import org.example.pom.*;
-import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
 
 import static org.example.Property.*;
 
 public class LogoutTest {
-    private WebDriver driver;
+    @Rule
+    public WebDriverRule browserRule = new WebDriverRule();
     private LoginPage objLoginPage;
     private PersonalAccountPage objPersonalAccountPage;
 
     @Before
     public void setUp() {
-        System.setProperty("webdriver.chrome.driver", DRIVER_PATH);
-        driver = new ChromeDriver();
-        RegisterPage objRegisterPage = new RegisterPage(driver);
-        objLoginPage = new LoginPage(driver);
-        MainPage objMainPage = new MainPage(driver);
-        objPersonalAccountPage = new PersonalAccountPage(driver);
+        RegisterPage objRegisterPage = new RegisterPage(browserRule.getDriver());
+        objLoginPage = new LoginPage(browserRule.getDriver());
+        MainPage objMainPage = new MainPage(browserRule.getDriver());
+        objPersonalAccountPage = new PersonalAccountPage(browserRule.getDriver());
 
-        driver.get(BASE_URL + PATH_REGISTER);
+        browserRule.getDriver().get(BASE_URL + PATH_REGISTER);
         objRegisterPage.waitForLoad();
 
-        objRegisterPage.setRegisterName(NAME);
-        objRegisterPage.setRegisterEmail(EMAIL);
-        objRegisterPage.setRegisterPassword(PASSWORD);
-        objRegisterPage.clickButtonRegister();
+        objRegisterPage.register(NAME, EMAIL, PASSWORD);
 
-        driver.get(BASE_URL + PATH_LOGIN);
+        browserRule.getDriver().get(BASE_URL + PATH_LOGIN);
         objLoginPage.waitForLoad();
 
-        objLoginPage.setLoginEmail(EMAIL);
-        objLoginPage.setLoginPassword(PASSWORD);
-        objLoginPage.clickButtonLogin();
+        objLoginPage.login(EMAIL, PASSWORD);
 
         objMainPage.waitForLoad();
 
         objMainPage.clickLinkPersonalAccount();
 
         objPersonalAccountPage.waitForLoad();
-    }
-
-    @After
-    public void tearDown() {
-        driver.quit();
     }
 
     @Test
