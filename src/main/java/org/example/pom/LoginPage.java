@@ -1,5 +1,6 @@
 package org.example.pom;
 
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -21,25 +22,30 @@ public class LoginPage {
         this.driver = driver;
     }
 
+    @Step("Ожидание загрузки страницы «Вход»")
     public void waitForLoad() {
         new WebDriverWait(driver, Duration.ofSeconds(8))
                 .until(ExpectedConditions.visibilityOfElementLocated(titleLoginPage));
     }
 
+    @Step("Проверка страницы «Вход»")
     public void checkForLoad() {
         String title = "Вход";
         assertEquals(title, driver.findElement(titleLoginPage).getText());
         assertEquals(BASE_URL + PATH_LOGIN, driver.getCurrentUrl());
     }
 
+    @Step("Ввод email в форме авторизации")
     public void setLoginEmail(String email) {
         driver.findElement(inputEmailFormLogin).sendKeys(email);
     }
 
+    @Step("Ввод пароля в форме авторизации")
     public void setLoginPassword(String password) {
         driver.findElement(inputPasswordFormLogin).sendKeys(password);
     }
 
+    @Step("Клик «Войти» в форме авторизации")
     public void clickButtonLogin() {
         driver.findElement(buttonLoginFormLogin).click();
     }

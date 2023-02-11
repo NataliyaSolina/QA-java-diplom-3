@@ -1,5 +1,6 @@
 package org.example.pom;
 
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -24,39 +25,47 @@ public class RegisterPage {
         this.driver = driver;
     }
 
+    @Step("Ожидание загрузки страницы «Регистрация»")
     public void waitForLoad() {
         // подожди 8 секунд, пока появится веб-элемент с нужным текстом
         new WebDriverWait(driver, Duration.ofSeconds(8))
                 .until(ExpectedConditions.visibilityOfElementLocated(titleRegisterPage));
     }
 
+    @Step("Проверка страницы «Регистрация»")
     public void checkForLoad() {
         String title = "Регистрация";
         assertEquals(title, driver.findElement(titleRegisterPage).getText());
         assertEquals(BASE_URL + PATH_REGISTER, driver.getCurrentUrl());
     }
 
+    @Step("Ввод имени в форме регистрации")
     public void setRegisterName(String name) {
         driver.findElement(inputNameFormRegister).sendKeys(name);
     }
 
+    @Step("Ввод email в форме регистрации")
     public void setRegisterEmail(String email) {
         driver.findElement(inputEmailFormRegister).sendKeys(email);
     }
 
+    @Step("Ввод пароля в форме регистрации")
     public void setRegisterPassword(String password) {
         driver.findElement(inputPasswordFormRegister).sendKeys(password);
     }
 
+    @Step("Клик «Зарегистрироваться» в форме регистрации")
     public void clickButtonRegister() {
         driver.findElement(buttonRegisterFormRegister).click();
     }
 
+    @Step("Проверка ошибки в форме регистрации")
     public void checkShowErrorPassword() {
         String stringError = "Некорректный пароль";
         assertEquals(stringError, driver.findElement(errorPasswordFormRegister).getText());
     }
 
+    @Step("Клик «Войти» на странице «Регистрация»")
     public void clickLinkLogin() {
         driver.findElement(linkLogin).click();
     }

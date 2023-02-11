@@ -1,5 +1,6 @@
 package org.example.pom;
 
+import io.qameta.allure.Step;
 import org.hamcrest.MatcherAssert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -26,62 +27,75 @@ public class MainPage {
         this.driver = driver;
     }
 
+    @Step("Ожидание загрузки главной страницы")
     public void waitForLoad() {
         new WebDriverWait(driver, Duration.ofSeconds(8))
                 .until(ExpectedConditions.visibilityOfElementLocated(titleMainPage));
     }
 
+    @Step("Проверка главной страницы")
     public void checkForLoad() {
         String title = "Соберите бургер";
         assertEquals(title, driver.findElement(titleMainPage).getText());
         assertEquals(BASE_URL + PATH_MAIN, driver.getCurrentUrl());
     }
 
+    @Step("Клик «Войти» на главной странице")
     public void clickButtonLogin() {
         driver.findElement(buttonLogin).click();
     }
 
+    @Step("Клик «Личный кабинет» на главной странице")
     public void clickLinkPersonalAccount() {
         driver.findElement(linkPersonalAccount).click();
     }
 
+    @Step("Клик на вкладке «Булки»")
     public void clickLinkBun() {
         driver.findElement(linkBun).click();
     }
 
+    @Step("Проверка что вкладка «Булки» не выбрана")
     public void checkNotSelectedBun() {
         String selectClass = "type_current";
         MatcherAssert.assertThat(driver.findElement(linkBun).getAttribute("class"), not(containsString(selectClass)));
     }
 
+    @Step("Проверка что вкладка «Булки» выбрана")
     public void checkSelectedBun() {
         String selectClass = "type_current";
         MatcherAssert.assertThat(driver.findElement(linkBun).getAttribute("class"), containsString(selectClass));
     }
 
+    @Step("Клик на вкладке «Соусы»")
     public void clickLinkSauce() {
         driver.findElement(linkSauce).click();
     }
 
+    @Step("Проверка что вкладка «Соусы» не выбрана")
     public void checkNotSelectedSauce() {
         String selectClass = "type_current";
         MatcherAssert.assertThat(driver.findElement(linkSauce).getAttribute("class"), not(containsString(selectClass)));
     }
 
+    @Step("Проверка что вкладка «Соусы» выбрана")
     public void checkSelectedSauce() {
         String selectClass = "type_current";
         MatcherAssert.assertThat(driver.findElement(linkSauce).getAttribute("class"), containsString(selectClass));
     }
 
+    @Step("Клик на вкладке «Начинки»")
     public void clickLinkFilling() {
         driver.findElement(linkFilling).click();
     }
 
+    @Step("Проверка что вкладка «Начинки» не выбрана")
     public void checkNotSelectedFilling() {
         String selectClass = "type_current";
         MatcherAssert.assertThat(driver.findElement(linkFilling).getAttribute("class"), not(containsString(selectClass)));
     }
 
+    @Step("Проверка что вкладка «Начинки» выбрана")
     public void checkSelectedFilling() {
         String selectClass = "type_current";
         MatcherAssert.assertThat(driver.findElement(linkFilling).getAttribute("class"), containsString(selectClass));

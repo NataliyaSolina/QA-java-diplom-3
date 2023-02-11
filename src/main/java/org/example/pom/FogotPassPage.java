@@ -1,5 +1,6 @@
 package org.example.pom;
 
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -19,17 +20,20 @@ public class FogotPassPage {
         this.driver = driver;
     }
 
+    @Step("Ожидание загрузки страницы «Забыли пароль»")
     public void waitForLoad() {
         new WebDriverWait(driver, Duration.ofSeconds(8))
                 .until(ExpectedConditions.visibilityOfElementLocated(titleLoginPage));
     }
 
+    @Step("Проверка страницы «Забыли пароль»")
     public void checkForLoad() {
         String title = "Восстановление пароля";
         assertEquals(title, driver.findElement(titleLoginPage).getText());
         assertEquals(BASE_URL + PATH_FOGOT_PASS, driver.getCurrentUrl());
     }
 
+    @Step("Клик «Войти» на странице «Забыли пароль»")
     public void clickLinkLogin() {
         driver.findElement(linkLogin).click();
     }

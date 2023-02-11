@@ -1,5 +1,6 @@
 package org.example.pom;
 
+import io.qameta.allure.Step;
 import org.hamcrest.MatcherAssert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -23,25 +24,30 @@ public class PersonalAccountPage {
         this.driver = driver;
     }
 
+    @Step("Ожидание загрузки страницы «Личный кабинет»")
     public void waitForLoad() {
         new WebDriverWait(driver, Duration.ofSeconds(8))
                 .until(ExpectedConditions.visibilityOfElementLocated(titlePersonalAccountPage));
     }
 
+    @Step("Проверка страницы «Личный кабинет»")
     public void checkForLoad() {
         String title = "свои персональные данные";
         MatcherAssert.assertThat(driver.findElement(titlePersonalAccountPage).getText(), containsString(title));
         assertEquals(BASE_URL + PATH_PERSONAL_ACCOUNT, driver.getCurrentUrl());
     }
 
+    @Step("Клик «Конструктор» на странице «Личный кабинет»")
     public void ckickLinkBuilder() {
         driver.findElement(linkBuilder).click();
     }
 
+    @Step("Клик на логотип на странице «Личный кабинет»")
     public void ckickLinkLogo() {
         driver.findElement(linkLogo).click();
     }
 
+    @Step("Клик «Выход» на странице «Личный кабинет»")
     public void ckickLinkLogout() {
         driver.findElement(linkLogout).click();
     }
