@@ -6,17 +6,16 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
-import static io.restassured.RestAssured.given;
-import static io.restassured.http.ContentType.JSON;
 import static java.util.Objects.isNull;
 import static org.example.Property.*;
 
 public class WebDriverRule extends ExternalResource {
     private WebDriver driver;
+    ApiMethods method = new ApiMethods();
+    Response response;
     public WebDriver getDriver() {
         return driver;
     }
-    String cred = String.format("{\"email\": \"%s\",\n\"password\": \"%s\"}", EMAIL, PASSWORD);
 
     @Override
     protected void before() {
@@ -39,40 +38,18 @@ public class WebDriverRule extends ExternalResource {
                 throw new IllegalStateException("Не знаю такого");
         }
 
-        Response responseAuth =
-                given()
-                        .header("Content-type", JSON)
-                        .and()
-                        .body(cred)
-                        .when()
-                        .post(BASE_URL + "/api/auth/login");
-        if (responseAuth.statusCode() == 200) {
-            given()
-                    .header("Content-type", JSON)
-                    .and()
-                    .header("Authorization", responseAuth.path("accessToken"))
-                    .when()
-                    .delete(BASE_URL + "/api/auth/user");
+        response = method.authUserApi();
+        if (response.statusCode() == 200) {
+            method.deleteUserApi(response);
         }
     }
 
     @Override
     protected void after() {
         driver.quit();
-        Response responseAuth =
-                given()
-                        .header("Content-type", JSON)
-                        .and()
-                        .body(cred)
-                        .when()
-                        .post(BASE_URL + "/api/auth/login");
-        if (responseAuth.statusCode() == 200) {
-            given()
-                    .header("Content-type", JSON)
-                    .and()
-                    .header("Authorization", responseAuth.path("accessToken"))
-                    .when()
-                    .delete(BASE_URL + "/api/auth/user");
+        response = method.authUserApi();
+        if (response.statusCode() == 200) {
+            method.deleteUserApi(response);
         }
     }
 }
