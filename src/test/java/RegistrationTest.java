@@ -1,5 +1,7 @@
 import io.qameta.allure.Description;
+import io.restassured.response.Response;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.example.ApiMethods;
 import org.example.WebDriverRule;
 import org.example.pom.*;
 import org.junit.Before;
@@ -36,8 +38,15 @@ public class RegistrationTest {
     @Test
     @Description("Ошибка для некорректного пароля")
     public void checkRegistrationInvalidPasswordRezultError() {
-        objRegisterPage.register(NAME, EMAIL, RandomStringUtils.randomAlphabetic(3, 5));
+        String pass =  RandomStringUtils.randomAlphanumeric(3, 5);
+        objRegisterPage.register(NAME, EMAIL, pass);
 
         objRegisterPage.checkShowErrorPassword();
+
+        ApiMethods apiMethod = new ApiMethods();
+        Response response = apiMethod.authUserApi();
+        if (response.statusCode() == 200) {
+            apiMethod.deleteUserApi(response);
+        }
     }
 }
