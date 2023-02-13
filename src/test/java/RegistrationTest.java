@@ -38,7 +38,7 @@ public class RegistrationTest {
     @Test
     @Description("Ошибка для некорректного пароля")
     public void checkRegistrationInvalidPasswordRezultError() {
-        String pass =  RandomStringUtils.randomAlphanumeric(3, 5);
+        String pass = RandomStringUtils.randomAlphanumeric(3, 5);
         objRegisterPage.register(NAME, EMAIL, pass);
 
         objRegisterPage.checkShowErrorPassword();
