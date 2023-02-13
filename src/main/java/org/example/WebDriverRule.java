@@ -11,7 +11,7 @@ import static org.example.Property.*;
 
 public class WebDriverRule extends ExternalResource {
     private WebDriver driver;
-    ApiMethods method = new ApiMethods();
+    ApiMethods apiMethod = new ApiMethods();
     Response response;
     public WebDriver getDriver() {
         return driver;
@@ -38,18 +38,18 @@ public class WebDriverRule extends ExternalResource {
                 throw new IllegalStateException("Не знаю такого");
         }
 
-        response = method.authUserApi();
+        response = apiMethod.authUserApi();
         if (response.statusCode() == 200) {
-            method.deleteUserApi(response);
+            apiMethod.deleteUserApi(response);
         }
     }
 
     @Override
     protected void after() {
         driver.quit();
-        response = method.authUserApi();
+        response = apiMethod.authUserApi();
         if (response.statusCode() == 200) {
-            method.deleteUserApi(response);
+            apiMethod.deleteUserApi(response);
         }
     }
 }

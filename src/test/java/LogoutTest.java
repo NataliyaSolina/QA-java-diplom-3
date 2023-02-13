@@ -1,4 +1,5 @@
 import io.qameta.allure.Description;
+import org.example.ApiMethods;
 import org.example.WebDriverRule;
 import org.example.pom.*;
 import org.junit.Before;
@@ -15,15 +16,12 @@ public class LogoutTest {
 
     @Before
     public void setUp() {
-        RegisterPage objRegisterPage = new RegisterPage(browserRule.getDriver());
+        ApiMethods apiMethod = new ApiMethods();
         objLoginPage = new LoginPage(browserRule.getDriver());
         MainPage objMainPage = new MainPage(browserRule.getDriver());
         objPersonalAccountPage = new PersonalAccountPage(browserRule.getDriver());
 
-        browserRule.getDriver().get(BASE_URL + PATH_REGISTER);
-        objRegisterPage.waitForLoad();
-
-        objRegisterPage.register(NAME, EMAIL, PASSWORD);
+        apiMethod.registerUserApi();
 
         browserRule.getDriver().get(BASE_URL + PATH_LOGIN);
         objLoginPage.waitForLoad();
