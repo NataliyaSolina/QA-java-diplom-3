@@ -3,6 +3,7 @@ package org.example;
 import io.qameta.allure.Step;
 import io.restassured.response.Response;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import static io.restassured.RestAssured.given;
@@ -16,7 +17,7 @@ public class ApiMethods {
             "email", EMAIL,
             "password", PASSWORD
     );
-    Map<String, String> cred = Map.of(
+    public Map<String, String> cred = Map.of(
             "email", EMAIL,
             "password", PASSWORD
     );
@@ -33,6 +34,20 @@ public class ApiMethods {
 
     @Step("Авторизация по АПИ")
     public Response authUserApi() {
+        return given()
+                .header("Content-type", JSON)
+                .and()
+                .body(cred)
+                .when()
+                .post(BASE_URL + BASE_PATH_API + PATH_LOGIN);
+
+    }
+
+    @Step("Авторизация по АПИ")
+    public Response authUserApi(String login, String pass) {
+        Map<String, String> cred = new HashMap<>();
+        cred.put("email", login);
+        cred.put("password", pass);
         return given()
                 .header("Content-type", JSON)
                 .and()

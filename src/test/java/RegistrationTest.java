@@ -4,18 +4,20 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.example.ApiMethods;
 import org.example.WebDriverRule;
 import org.example.pom.*;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
 import static org.example.Property.*;
+import static java.util.Objects.nonNull;
 
 public class RegistrationTest {
     @Rule
     public WebDriverRule browserRule = new WebDriverRule();
-
     private RegisterPage objRegisterPage;
     private LoginPage objLoginPage;
+    String pass;
 
     @Before
     public void setUp() {
@@ -24,6 +26,18 @@ public class RegistrationTest {
 
         browserRule.getDriver().get(BASE_URL + PATH_REGISTER);
         objRegisterPage.waitForLoad();
+    }
+
+    @After
+    public void cleanUp() {
+        if (nonNull(pass)) {
+            ApiMethods apiMethod = new ApiMethods();
+            Response response = apiMethod.authUserApi(EMAIL, pass);
+            if (response.statusCode() == 200) {
+                apiMethod.deleteUserApi(response);
+
+            }
+        }
     }
 
     @Test
@@ -38,15 +52,9 @@ public class RegistrationTest {
     @Test
     @Description("Ошибка для некорректного пароля")
     public void checkRegistrationInvalidPasswordRezultError() {
-        String pass = RandomStringUtils.randomAlphanumeric(3, 5);
+        pass = RandomStringUtils.randomAlphanumeric(3, 5);
         objRegisterPage.register(NAME, EMAIL, pass);
 
         objRegisterPage.checkShowErrorPassword();
-
-        ApiMethods apiMethod = new ApiMethods();
-        Response response = apiMethod.authUserApi();
-        if (response.statusCode() == 200) {
-            apiMethod.deleteUserApi(response);
-        }
     }
 }
