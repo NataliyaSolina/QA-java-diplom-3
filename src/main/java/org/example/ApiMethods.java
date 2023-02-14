@@ -28,7 +28,7 @@ public class ApiMethods {
                 .and()
                 .body(user)
                 .when()
-                .post(BASE_URL + "/api/auth/register");
+                .post(BASE_URL + BASE_PATH_API + PATH_REGISTER);
     }
 
     @Step("Авторизация по АПИ")
@@ -38,7 +38,7 @@ public class ApiMethods {
                 .and()
                 .body(cred)
                 .when()
-                .post(BASE_URL + "/api/auth/login");
+                .post(BASE_URL + BASE_PATH_API + PATH_LOGIN);
 
     }
 
@@ -49,6 +49,6 @@ public class ApiMethods {
                 .and()
                 .header("Authorization", responseAuth.path("accessToken"))
                 .when()
-                .delete(BASE_URL + "/api/auth/user");
+                .delete(BASE_URL + BASE_PATH_API + PATH_USER);
     }
 }
